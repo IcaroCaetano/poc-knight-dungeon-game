@@ -1,3 +1,4 @@
+
 ## sbt project compiled with Scala 3
 
 ### Usage
@@ -73,9 +74,10 @@ Minimum initial health: 1
 ```
 
 ### 🧠 Logic Explanation
+
 We use Dynamic Programming to calculate the minimum health needed at each cell starting from the bottom-right back to the top-left.
 
-We define a matrix dp(i)(j) that stores the minimum health the knight needs to survive and reach the princess from that cell.
+We define a matrix `dp(i)(j)` that stores the minimum health the knight needs to survive and reach the princess from that cell.
 
 The value is calculated as:
 
@@ -85,9 +87,9 @@ dp(i)(j) = max(1, min(dp(i+1)(j), dp(i)(j+1)) - dungeon(i)(j))
 
 Where:
 
-- min(dp(i+1)(j), dp(i)(j+1)) ensures we take the path that requires less health.
+- `min(dp(i+1)(j), dp(i)(j+1))` ensures we take the path that requires less health.
 
-- max(..., 1) ensures that the knight never drops below 1 HP
+- `max(..., 1)` ensures that the knight never drops below 1 HP
 
 
 ### 📂 Project Structure
@@ -102,3 +104,8 @@ Where:
 │           └── DungeonGame.scala
 └── README.md
 ```
+
+### ℹ️ Reference
+- 🔗 [LeetCode - Dungeon Game](https://leetcode.com/problems/dungeon-game/description/)
+
+- 💡 Problem #174 - Difficulty: Hard

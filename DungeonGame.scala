@@ -1,4 +1,4 @@
-/** 
+/**
  * Solves the "Dungeon Game" problem where a knight must traverse a dungeon represented by a 2D grid
  * to rescue a princess imprisoned in the bottom-right cell. Each cell may damage or heal the knight,
  * and he can only move right or down.
@@ -16,7 +16,13 @@ object DungeonGame:
    * The knight dies if his health ever drops to 0 or below during the journey.
    *
    * @param dungeon A 2D array of integers representing the dungeon layout.
+   *                Each element dungeon[i][j] can be:
+   *                - Negative: the knight loses health upon entering this room.
+   *                - Zero: the room is empty; the knight's health remains unchanged.
+   *                - Positive: the knight gains health upon entering this room.
    * @return The minimum initial health required to ensure the knight can reach the princess.
+   *         This value represents the least amount of health the knight must start with to survive
+   *         the dungeon and rescue the princess without dying at any point.
    */
   def calculateMinimumHP(dungeon: Array[Array[Int]]): Int =
     val m = dungeon.length
@@ -38,6 +44,9 @@ object DungeonGame:
 
   /**
    * Entry point of the application. Runs two example scenarios.
+   *
+   * Demonstrates the usage of calculateMinimumHP with predefined dungeon layouts.
+   * Prints the minimum initial health required for each scenario.
    */
   @main def run(): Unit =
     val dungeon1 = Array(
@@ -45,7 +54,7 @@ object DungeonGame:
       Array(-5, -10, 1),
       Array(10, 30, -5)
     )
-    println(s"Minimum initial health: ${calculateMinimumHP(dungeon1)}") // Should print 7
+    println(s"Minimum initial health for dungeon1: ${calculateMinimumHP(dungeon1)}")
 
     val dungeon2 = Array(Array(0))
-    println(s"Minimum initial health: ${calculateMinimumHP(dungeon2)}") // Should print 1
+    println(s"Minimum initial health for dungeon2: ${calculateMinimumHP(dungeon2)}")
