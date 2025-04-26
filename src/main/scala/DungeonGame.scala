@@ -115,6 +115,14 @@ object DungeonGame:
     // Check final result
     if health <= 0 then
       println("The knight died during the journey.")
+      println("""
+   _____                         ____                 
+  / ____|                       / __ \                
+ | |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __ 
+ | | |_ |/ _` | '_ ` _ \ / _ \ | |  | \ \ / / _ \ '__|
+ | |__| | (_| | | | | | |  __/ | |__| |\ V /  __/ |   
+  \_____|\__,_|_| |_| |_|\___|  \____/  \_/ \___|_|   
+        """)
     else if position == (rows - 1, cols - 1) then
        println(s"The knight rescued the princess with $health health remaining!")
        println("""
