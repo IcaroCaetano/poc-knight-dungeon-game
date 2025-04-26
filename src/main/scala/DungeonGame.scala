@@ -3,11 +3,11 @@ import scala.io.StdIn.readLine
 object DungeonGame:
 
   /**
-   * Solicita ao usuário um número inteiro com uma mensagem personalizada.
-   * Continua solicitando até que uma entrada válida seja fornecida.
+   * Prompts the user for an integer with a custom message.
+   * Keeps prompting until a valid input is provided.
    *
-   * @param prompt Mensagem exibida ao usuário.
-   * @return Número inteiro fornecido pelo usuário.
+   * @param prompt Message displayed to the user.
+   * @return Integer value provided by the user.
    */
   def promptForInt(prompt: String): Int =
     var valid = false
@@ -19,16 +19,16 @@ object DungeonGame:
         valid = true
       catch
         case _: NumberFormatException =>
-          println("Entrada inválida. Por favor, insira um número inteiro.")
+          println("Invalid input. Please enter an integer.")
     value
 
   /**
-   * Solicita ao usuário um número inteiro com um valor mínimo especificado.
-   * Continua solicitando até que uma entrada válida e dentro do limite seja fornecida.
+   * Prompts the user for an integer with a specified minimum value.
+   * Keeps prompting until a valid and acceptable input is provided.
    *
-   * @param prompt Mensagem exibida ao usuário.
-   * @param min Valor mínimo aceitável.
-   * @return Número inteiro fornecido pelo usuário.
+   * @param prompt Message displayed to the user.
+   * @param min Minimum acceptable value.
+   * @return Integer value provided by the user.
    */
   def promptForIntWithMin(prompt: String, min: Int): Int =
     var value = 0
@@ -38,17 +38,17 @@ object DungeonGame:
       if value >= min then
         valid = true
       else
-        println(s"O valor deve ser pelo menos $min.")
+        println(s"The value must be at least $min.")
     value
 
   /**
-   * Exibe a matriz do calabouço de forma tabular, destacando a posição atual do cavaleiro.
+   * Displays the dungeon matrix in tabular form, highlighting the knight's current position.
    *
-   * @param dungeon Matriz representando o calabouço.
-   * @param position Tupla representando a posição atual do cavaleiro.
+   * @param dungeon Matrix representing the dungeon.
+   * @param position Tuple representing the knight's current position.
    */
   def printDungeon(dungeon: Array[Array[Int]], position: (Int, Int)): Unit =
-    println("\nMatriz do Calabouço:")
+    println("\nDungeon Matrix:")
     for i <- dungeon.indices do
       for j <- dungeon(i).indices do
         if (i, j) == position then
@@ -59,38 +59,38 @@ object DungeonGame:
     println()
 
   /**
-   * Função principal que executa o programa.
-   * Solicita entradas do usuário, exibe a matriz e simula a trajetória do cavaleiro.
+   * Main function that runs the program.
+   * Prompts for user input, displays the matrix, and simulates the knight's path.
    */
   def main(args: Array[String]): Unit =
-    println("Bem-vindo ao Jogo do Calabouço!")
+    println("Welcome to the Dungeon Game!")
 
-    // Solicita o tamanho do calabouço
-    val rows = promptForInt("Informe o número de linhas do calabouço:")
-    val cols = promptForInt("Informe o número de colunas do calabouço:")
+    // Prompt for dungeon size
+    val rows = promptForInt("Enter the number of dungeon rows:")
+    val cols = promptForInt("Enter the number of dungeon columns:")
 
-    // Solicita os valores do calabouço
+    // Prompt for dungeon values
     val dungeon = Array.ofDim[Int](rows, cols)
-    println(s"Informe os valores do calabouço (${rows * cols} valores):")
+    println(s"Enter the dungeon values (${rows * cols} values):")
     for i <- 0 until rows do
       for j <- 0 until cols do
-        dungeon(i)(j) = promptForInt(s"Valor para a célula ($i, $j):")
+        dungeon(i)(j) = promptForInt(s"Value for cell ($i, $j):")
 
-    // Exibe a matriz do calabouço
+    // Display the dungeon matrix
     val initialPosition = (0, 0)
     printDungeon(dungeon, initialPosition)
 
-    // Solicita a saúde inicial do cavaleiro
-    val initialHealth = promptForIntWithMin("Informe a vida inicial do cavaleiro (mínimo de 7):", 7)
+    // Prompt for initial knight health
+    val initialHealth = promptForIntWithMin("Enter the knight's initial health (minimum 7):", 7)
 
-    // Inicializa a posição e a saúde do cavaleiro
+    // Initialize knight's position and health
     var health = initialHealth + dungeon(initialPosition._1)(initialPosition._2)
     var position = initialPosition
-    println(s"Posição inicial: (${position._1}, ${position._2}), Vida: $health")
+    println(s"Starting position: (${position._1}, ${position._2}), Health: $health")
 
-    // Loop de movimentos
+    // Movement loop
     while position != (rows - 1, cols - 1) && health > 0 do
-      println("Informe o próximo movimento ('r' para direita, 'd' para baixo):")
+      println("Enter the next move ('r' for right, 'd' for down):")
       val move = readLine().trim.toLowerCase
       move match
         case "r" =>
@@ -98,22 +98,35 @@ object DungeonGame:
             position = (position._1, position._2 + 1)
             health += dungeon(position._1)(position._2)
             printDungeon(dungeon, position)
-            println(s"Movimento para a direita. Posição: (${position._1}, ${position._2}), Vida: $health")
+            println(s"Moved right. Position: (${position._1}, ${position._2}), Health: $health")
           else
-            println("Movimento inválido: fora dos limites do calabouço.")
+            println("Invalid move: out of dungeon bounds.")
         case "d" =>
           if position._1 + 1 < rows then
             position = (position._1 + 1, position._2)
             health += dungeon(position._1)(position._2)
             printDungeon(dungeon, position)
-            println(s"Movimento para baixo. Posição: (${position._1}, ${position._2}), Vida: $health")
+            println(s"Moved down. Position: (${position._1}, ${position._2}), Health: $health")
           else
-            println("Movimento inválido: fora dos limites do calabouço.")
+            println("Invalid move: out of dungeon bounds.")
         case _ =>
-          println(s"Movimento desconhecido: $move")
+          println(s"Unknown move: $move")
 
-    // Verifica o resultado final
+    // Check final result
     if health <= 0 then
-      println("O cavaleiro morreu durante a jornada.")
+      println("The knight died during the journey.")
     else if position == (rows - 1, cols - 1) then
-      println(s"O cavaleiro resgatou a princesa com $health de vida restante!")
+       println(s"The knight rescued the princess with $health health remaining!")
+       println("""
+               _______________
+                '._==_==_=_.'
+                .-\:      /-.
+               | (|:.     |) |
+                '-|:.     |-'
+                  \::.    /
+                   '::. .'
+                     ) (
+                   _.' '._
+                  `-------`
+
+              The Princess is Rescued!""")
